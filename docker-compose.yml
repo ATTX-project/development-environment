@@ -6,12 +6,11 @@ services:
       - "49001:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - $(which docker):/usr/bin/docker      
+      - /usr/bin/docker:/usr/bin/docker      
       - /data/jenkins:/var/jenkins_home
     links:
-      - pivyrepo:pipyrepo
+      - "pipyrepo:pivyrepo"
 
-services:
   pipyrepo:
     image: attxproject/pypirepo:latest
     ports: 
