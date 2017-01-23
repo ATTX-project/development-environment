@@ -1,12 +1,90 @@
-## PivyRepo for Python Gradle builds
+## PypiRepo for PyGradle - Python Gradle builds
 
-Requires an already build local repo in a folde called pypi
+Copy of docker image from https://github.com/blankdots/ivy-pypi-repo
 
-## Instructions for creating the local pivyrepo
-Requires the pivy repository locally check build.gradle
-* download from https://bintray.com/linkedin/maven/pivy-importer#files/com/linkedin/pygradle/pivy-importer/0.3.37
-* run as below
+## Build and Run
+
+Build with gradle:
+* gradle wrapper for Gradle 3.3 provided - use `./gradlew`;
+* build the ivy-pypi-repo - `./gradlew build` a.k.a. your own artifact for the API;
+* run the ivy-pypi-repo - `./gradlew run`
+* build the docker image - `./gradlew buildpypiImage` it will generate the `attx-dev/pypirepo` at build (use it to run the container) -  based on [gradle-dcompose-plugin](https://github.com/chrisgahlert/gradle-dcompose-plugin) - see for more tasks.
+
+Other commands:
+* `./gradlew run` on the ivy-pypi-repo to run the server locally for adding dependencies
+* `./gradlew tasks --all` - see all tasks
+
+Running the docker image:
+* without persistance: `docker run -p 5039:5039 -p 5639:5639 -d attx-dev/pypirepo`
+* with persistance: `docker run -p 5039:5039 -p 5639:5639 -d -v /data:/data attx-dev/pypirepo`
+
+### PyGradle usage
+
+In order to use this Ivy repository with PyGradle one can set it up in the `build.grale` as:
+
+``` {groovy}
+repositories {
+    // the webrepository
+    ivy{
+      name 'pypi-repo'
+  		url "http://pypirepo:5039/"
+  		layout 'pattern' , {
+  			artifact '[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]'
+  			ivy '[organisation]/[module]/[revision]/[module]-[revision].ivy'
+  		}
+    }
+}
 ```
-java -jar ~/Software/pivy-importer-0.3.37-all.jar --repo /home/stefanne/Software/pivy virtualenv:15.0.1 pip:7.1.2 connexion:1.0.129 gunicorn:19.6.0 lxml:3.6.4 rdflib:4.2.1 rdflib-jsonld:0.4.0 PyMySQL:0.7.9 setuptools:19.1.1 swagger-spec-validator:2.0.2 pathlib:1.0.1 wheel:0.26.0 setuptools-git:1.1 flake8:2.5.4 Sphinx:1.4.1 pex:1.1.4 pytest:2.9.1 pytest-cov:2.2.1 pytest-xdist:1.14 setuptools:28.0.0 --replace alabaster:0.7=alabaster:0.7.1,pytz:0a=pytz:2016.4,Babel:0.8=Babel:1.0,sphinx_rtd_theme:0.1=sphinx_rtd_theme:0.1.1,idna:2.0.0=idna:2.1,chardet:2.2=chardet:2.3,setuptools:0.6a2=setuptools:32.1.0
 
+## Endpoints
+
+The following endpoints are available:
+* `http://localhost:5039/pypi` - for retrieving depenencies;
+* `http://localhost:5639/init`- for initialising the repository with depenencies;
+* `http://localhost:5639/add`- for adding depenencies.
+
+The init dependencies can be manged in `resources/init.json` file.
+
+Adding new repository can be achieved by `http://localhost:5639/add` endpoint. JSON Request example:
+```{json}
+{
+	"dependencies":  [
+		{
+			"name" : "dependency",
+			"version" : "1.0.0"
+		}
+	],
+	"replace" : [
+		{
+			"name": "dependency",
+			"oldVersion": "0.1",
+			"newVersion": "0.1.1"
+		}
+	]
+}
 ```
+Example of curl requests:
+
+* `curl -X GET -H http://localhost:5039/pypi/{dependencyName}/{version}/dependencyName-version.tar.gz` to retrieve dependency with a specific version number
+
+
+* `curl -X POST -H "Content-Type: application/json" -H "Cache-Control: no-cache" -H "Postman-Token: 434b0f96-728d-f97e-c016-ffcf61b3f54a" -d '{
+	"dependencies":  [
+		{
+			"name" : "pytest",
+			"version" : "3.0.5"
+		},
+		{
+			"name" : "elizabeth",
+			"version" : "0.3.11"
+		}
+	],
+	"replace" : [
+		{
+			"name": "alabaster",
+			"oldVersion": "0.7",
+			"newVersion": "0.7.1"
+		}
+	]
+}' "http://localhost:5639/add"
+` - for adding dependencies
