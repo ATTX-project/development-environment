@@ -9,9 +9,9 @@ services:
       - /usr/bin/docker:/usr/bin/docker      
       - /data/jenkins:/var/jenkins_home
     links:
-      - "pipyrepo:pivyrepo"
+      - "pypirepo:pypirepo"
 
-  pipyrepo:
+  pypirepo:
     image: attxproject/pypirepo:latest
     ports: 
       - "5039:5039"
