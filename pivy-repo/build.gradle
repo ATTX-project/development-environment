@@ -1,0 +1,20 @@
+plugins {
+    id "com.chrisgahlert.gradle-dcompose-plugin" version "0.8.2"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dcompose {
+  registry ('http://attx-dev:5000') {
+     	 // Needs no user/pass
+ 	 }
+  pypirepo {
+    baseDir = file('.')
+    repository = 'attx-dev:5000/pypirepo:latest'
+    portBindings = ['5039:5039', '5639:5639']
+    volumes = ['/data']
+    binds = ['/data:/data']
+  }
+}

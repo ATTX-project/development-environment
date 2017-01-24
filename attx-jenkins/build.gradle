@@ -1,0 +1,19 @@
+plugins {
+    id "com.chrisgahlert.gradle-dcompose-plugin" version "0.8.2"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dcompose {
+  registry ('http://attx-dev:5000') {
+     	 // Needs no user/pass
+ 	 }
+  jenkins {
+    baseDir = file('.')
+    repository = 'attx-dev:5000/attx-jenkins:latest'
+    portBindings = ['49001:8080']
+    binds = ['/data/jenkins:/data/jenkins_home']
+  }
+}
