@@ -7,7 +7,7 @@ repositories {
 }
 
 dcompose {
-  registry ('http://attx-dev:5000') {
+  registry ('attx-dev:5000') {
      	 // Needs no user/pass
  	 }
   pypirepo {

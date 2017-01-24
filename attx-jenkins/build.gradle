@@ -12,7 +12,7 @@ dcompose {
  	 }
   jenkins {
     baseDir = file('.')
-    repository = 'attxproject/attx-jenkins:latest'
+    repository = 'attx-dev:5000/attx-jenkins:latest'
     portBindings = ['49001:8080']
     binds = ['/data/jenkins:/data/jenkins_home']
   }
