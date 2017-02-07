@@ -10,6 +10,7 @@ services:
       - /data/jenkins:/var/jenkins_home
     links:
       - "pypirepo:pypirepo"
+      - "archiva:archiva"
 
   pypirepo:
     image: attxproject/pypirepo:latest
@@ -18,3 +19,10 @@ services:
       - "5639:5639"
     volumes:
       -  /data/pypirepo:/data
+      
+  archiva:
+    image: xetusoss/archiva:latest
+    ports:
+      - "8081:8080"
+    volumes:
+      - /archiva_mnt:/data/archiva
