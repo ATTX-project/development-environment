@@ -13,7 +13,7 @@ services:
       - "archiva:archiva"
 
   pypirepo:
-    image: attxproject/pypirepo:latest
+    image: attx-dev:5000/pypirepo:latest
     ports: 
       - "5039:5039"
       - "5639:5639"
