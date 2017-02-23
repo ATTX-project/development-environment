@@ -1,13 +1,13 @@
 apply plugin: 'base'
 
 repositories {
-    // need to have maven central or a mirror in order for the plugin to be functional
-    mavenCentral()
+  // need to have maven central or a mirror in order for the plugin to be functional
+  mavenCentral()
 }
 
 ext.imageRepo = "attx-dev"
 ext.imageRepoPort = "5000"
 
 if (!project.hasProperty("registryURL")) {
-    ext.registryURL = "http://${imageRepo}:${imageRepoPort}"
+  ext.registryURL = "http://${imageRepo}:${imageRepoPort}"
 }
