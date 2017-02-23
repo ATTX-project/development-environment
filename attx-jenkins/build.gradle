@@ -1,19 +1,18 @@
-plugins {
-    id "com.chrisgahlert.gradle-dcompose-plugin" version "0.8.2"
-}
-
-repositories {
-    mavenCentral()
-}
+apply plugin: 'com.chrisgahlert.gradle-dcompose-plugin'
 
 dcompose {
-  registry ('http://attx-dev:5000') {
-     	 // Needs no user/pass
- 	 }
-  jenkins {
-    baseDir = file('.')
-    repository = 'attx-dev:5000/attx-jenkins:latest'
-    portBindings = ['49001:8080']
-    binds = ['/data/jenkins:/data/jenkins_home']
-  }
+    createComposeFile.useTags = true
+    networks {
+        devEnv
+    }
+    registry ("$registryURL") {
+    // Needs no user/pass
+    	}
+    jenkins {
+        baseDir = file('.')
+        repository = "${imageRepo}:${imageRepoPort}/attx-jenkins:latest"
+        portBindings = ['49001:8080']
+        binds = ['/data/jenkins:/data/jenkins_home']
+        networks = [devEnv]
+    }
 }
