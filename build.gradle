@@ -3,7 +3,7 @@ plugins {
 }
 
 repositories {
-    // need to have maven central or a mirror in order for the plugin to be functional
+  // need to have maven central or a mirror in order for the plugin to be functional
   mavenCentral()
 }
 
@@ -29,13 +29,5 @@ dcompose {
 
 createComposeFile {
   target = file("$buildDir/docker-compose.yml") // default
-
   createComposeFile.useTags = true
-
-  // If you need to modify the compose file before it is saved:
-  // beforeSave { config ->
-  //   config.services = [
-  //     driver: 'overlay'
-  //   ]
-  // }
 }
