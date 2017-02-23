@@ -1,18 +1,18 @@
 apply plugin: 'com.chrisgahlert.gradle-dcompose-plugin'
 
 dcompose {
-  createComposeFile.useTags = true
-  networks {
-    devEnv
-  }
-  registry ("$registryURL") {
+    createComposeFile.useTags = true
+    networks {
+        devEnv
+    }
+    registry ("$registryURL") {
     // Needs no user/pass
- 	}
-  jenkins {
-    baseDir = file('.')
-    repository = "${imageRepo}:${imageRepoPort}/attx-jenkins:latest"
-    portBindings = ['49001:8080']
-    binds = ['/data/jenkins:/data/jenkins_home']
-    networks = [devEnv]
-  }
+    	}
+    jenkins {
+        baseDir = file('.')
+        repository = "${imageRepo}:${imageRepoPort}/attx-jenkins:latest"
+        portBindings = ['49001:8080']
+        binds = ['/data/jenkins:/data/jenkins_home']
+        networks = [devEnv]
+    }
 }

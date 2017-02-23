@@ -3,31 +3,31 @@ plugins {
 }
 
 repositories {
-  // need to have maven central or a mirror in order for the plugin to be functional
-  mavenCentral()
+    // need to have maven central or a mirror in order for the plugin to be functional
+    mavenCentral()
 }
 
 subprojects {
-  apply from: rootProject.file('common.gradle')
+    apply from: rootProject.file('common.gradle')
 }
 
 dcompose {
-  networks {
-    devEnv
-  }
-  createComposeFile.useTags = true
+    networks {
+        devEnv
+    }
+    createComposeFile.useTags = true
 
-  archiva {
-    image = 'xetusoss/archiva:latest'
-    portBindings = ['8081:8080']
-    volumes = ['/archiva-data']
+    archiva {
+        image = 'xetusoss/archiva:latest'
+        portBindings = ['8081:8080']
+        volumes = ['/archiva-data']
 		binds = ['/data/archiva:/archiva-data']
-    networks = [devEnv]
-    dependsOn = [service(':pivy-repo:pypirepo'), service(':attx-jenkins:jenkins')]
-  }
+        networks = [devEnv]
+        dependsOn = [service(':pivy-repo:pypirepo'), service(':attx-jenkins:jenkins')]
+    }
 }
 
 createComposeFile {
-  target = file("$buildDir/docker-compose.yml") // default
-  createComposeFile.useTags = true
+    target = file("$buildDir/docker-compose.yml") // default
+    createComposeFile.useTags = true
 }

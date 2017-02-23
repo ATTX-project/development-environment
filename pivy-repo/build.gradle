@@ -1,19 +1,19 @@
 apply plugin: 'com.chrisgahlert.gradle-dcompose-plugin'
 
 dcompose {
-  createComposeFile.useTags = true
-  registry ("$registryURL") {
-     	// Needs no user/pass
+    createComposeFile.useTags = true
+    registry ("$registryURL") {
+        // Needs no user/pass
  	}
-  networks {
-    devEnv
-  }
-  pypirepo {
-    baseDir = file('.')
-    repository = "${imageRepo}:${imageRepoPort}/pypirepo:latest"
-    portBindings = ['5039:5039', '5639:5639']
-    volumes = ['/data']
-    binds = ['/data/pypirepo:/data']
-    networks = [devEnv]
-  }
+    networks {
+        devEnv
+    }
+    pypirepo {
+        baseDir = file('.')
+        repository = "${imageRepo}:${imageRepoPort}/pypirepo:latest"
+        portBindings = ['5039:5039', '5639:5639']
+        volumes = ['/data']
+        binds = ['/data/pypirepo:/data']
+        networks = [devEnv]
+    }
 }
