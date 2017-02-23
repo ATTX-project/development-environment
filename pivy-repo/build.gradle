@@ -1,20 +1,19 @@
-plugins {
-    id "com.chrisgahlert.gradle-dcompose-plugin" version "0.8.2"
-}
-
-repositories {
-    mavenCentral()
-}
+apply plugin: 'com.chrisgahlert.gradle-dcompose-plugin'
 
 dcompose {
-  registry ('http://attx-dev:5000') {
-     	 // Needs no user/pass
- 	 }
+  createComposeFile.useTags = true
+  registry ("$registryURL") {
+     	// Needs no user/pass
+ 	}
+  networks {
+    devEnv
+  }
   pypirepo {
     baseDir = file('.')
-    repository = 'attx-dev:5000/pypirepo:latest'
+    repository = "${imageRepo}:${imageRepoPort}/pypirepo:latest"
     portBindings = ['5039:5039', '5639:5639']
     volumes = ['/data']
-    binds = ['/data:/data']
+    binds = ['/data/pypirepo:/data']
+    networks = [devEnv]
   }
 }

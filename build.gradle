@@ -1,48 +1,41 @@
 plugins {
     id "com.chrisgahlert.gradle-dcompose-plugin" version "0.8.2"
 }
-apply plugin: 'java'
-
-sourceCompatibility = 1.6
 
 repositories {
     // need to have maven central or a mirror in order for the plugin to be functional
     mavenCentral()
 }
 
-
+subprojects {
+  apply from: rootProject.file('common.gradle')
+}
 
 dcompose {
-
-	createComposeFile.useAWSCompat = true
+  networks {
+    devEnv
+  }
 	createComposeFile.useTags = true
 
-	registry ('http://attx-dev:5000') {
-	registry ('http://attx-dev.hulib.helsinki.fi:5000')
-     	 // Needs no user/pass
- 	 }	
-
-
-	pypirepo {
-                image = 'attx-dev:5000/pypirepo:latest'
-                portBindings = ['5039:5039', '5639:5639']
-		volumes = ['/data']
-                binds = ['/data/pypirepo:/data/pypirepo']
-        }
-
-        archiva {
-                image = 'xetusoss/archiva:latest'
-                portBindings = ['8081:8080']
-                volumes = ['/archiva-data']
+  archiva {
+    image = 'xetusoss/archiva:latest'
+    portBindings = ['8081:8080']
+    volumes = ['/archiva-data']
 		binds = ['/data/archiva:/archiva-data']
-        }
+    networks = [devEnv]
+    dependsOn = [service(':pivy-repo:pypirepo'), service(':attx-jenkins:jenkins')]
+  }
+}
 
-	'attx-jenkins' {
-		image = 'attxproject/attx-jenkins:latest'
-		portBindings = ['49001:8080']
-		volumes = ['/var/jenkins_home']
-		binds = ['/var/run/docker.sock:/var/run/docker.sock', '/usr/bin/docker:/usr/bin/docker', '/data/jenkins:/var/jenkins_home']
-		links = [pypirepo.link(), archiva.link()]
-	}
-	
+createComposeFile {
+  target = file("$buildDir/docker-compose.yml") // default
+
+  createComposeFile.useTags = true
+
+  // If you need to modify the compose file before it is saved:
+  // beforeSave { config ->
+  //   config.services = [
+  //     driver: 'overlay'
+  //   ]
+  // }
 }
