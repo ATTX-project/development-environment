@@ -1,5 +1,5 @@
 plugins {
-  id "com.chrisgahlert.gradle-dcompose-plugin" version "0.8.2"
+  id "com.chrisgahlert.gradle-dcompose-plugin" version "0.9.0"
 }
 
 repositories {
@@ -16,8 +16,11 @@ dcompose {
         devEnv
     }
     createComposeFile.useTags = true
+    version = '3' // default - also supports '2'
 
     archiva {
+        forcePull = true
+        forceRemoveImage = true
         image = 'xetusoss/archiva:latest'
         portBindings = ['8081:8080']
         volumes = ['/archiva-data']

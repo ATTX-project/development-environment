@@ -2,6 +2,7 @@ apply plugin: 'com.chrisgahlert.gradle-dcompose-plugin'
 
 dcompose {
     createComposeFile.useTags = true
+    version = '3' // default - also supports '2'
     networks {
         devEnv
     }
@@ -9,6 +10,8 @@ dcompose {
     // Needs no user/pass
     	}
     jenkins {
+        forcePull = true
+        forceRemoveImage = true
         baseDir = file('.')
         repository = "${imageRepo}:${imageRepoPort}/attx-jenkins:latest"
         portBindings = ['49001:8080']
