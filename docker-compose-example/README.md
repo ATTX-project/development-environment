@@ -14,10 +14,11 @@ Download the example docker-compose.yml and run
 
 You should then have three images running, for example:
 
-`
+```
 CONTAINER ID        IMAGE                             COMMAND                  CREATED             STATUS              PORTS                                                             NAMES
 49cacea98f82        attxproject/attx-jenkins:latest   "/bin/tini -- /usr..."   About an hour ago   Up About an hour    50000/tcp, 0.0.0.0:49001->8080/tcp                                attxdev_attx-jenkins_1
 4641bb0a1281        attx-dev:5000/pypirepo:latest     "/bin/sh -c 'nginx..."   About an hour ago   Up About an hour    80/tcp, 0.0.0.0:5039->5039/tcp, 443/tcp, 0.0.0.0:5639->5639/tcp   attxdev_pypirepo_1
-dcdf1ca95973        xetusoss/archiva:latest           "/run.bash"              About an hour ago   Up About an hour    8443/tcp, 0.0.0.0:8081->8080/tcp                                  attxdev_archiva_1
+dcdf1ca95973        xetusoss/archiva:latest           "/run.bash"              About an hour ago   Up About an hour    8443/tcp, 0.0.0.0:8081->8080/tcp                                  attxdev_archiva_1
+```
 
-Jenkins webui can then be accessed at <127.0.0.1:49001>, PyPi at <127.0.0.1:5039> and <127.0.0.1:5639>, and Archiva at <127.0.0.1:8081>`
+Jenkins webui can then be accessed at <127.0.0.1:49001>, PyPi at <127.0.0.1:5039> and <127.0.0.1:5639>, and Archiva at <127.0.0.1:8081>
