@@ -4,7 +4,7 @@ Here you can find an example docker-compose.yml of our development environment i
 
 ## Prerequisites
 
-Having Docker Compose installed, please check the instructions  ə https://docs.docker.com/compose/install/
+Having Docker Engine and Docker Compose installed, please check the instructions at  https://docs.docker.com/engine/installation/ and https://docs.docker.com/compose/install/, respectively.
 
 ## Deployment
 
