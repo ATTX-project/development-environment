@@ -1,6 +1,6 @@
 # README
 
-Here you can find an example docker-compose.yml of our development environment implementation. We hope it makes it easier easier for sysdamins, testers, and developers to try it out how we have integrated Jenkins, Archiva, and PiPy.
+Here you can find an example docker-compose.yml of our development environment implementation. We hope it makes it easier easier for sysdamins, testers, and developers to try it out how we have integrated Jenkins (https://jenkins.io/), Archiva (https://archiva.apache.org/index.cgi), and PiPy (https://pypi.python.org/pypi) into a CI system. 
 
 ## Prerequisites
 
