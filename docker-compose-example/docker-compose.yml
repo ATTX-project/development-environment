@@ -1,0 +1,28 @@
+version: '2'
+services:
+  attx-jenkins:
+    image: attxproject/attx-jenkins:latest
+    ports: 
+      - "49001:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker      
+      - /data/jenkins:/var/jenkins_home
+    links:
+      - "pypirepo:pypirepo"
+      - "archiva:archiva"
+
+  pypirepo:
+    image: attx-dev:5000/pypirepo:latest
+    ports: 
+      - "5039:5039"
+      - "5639:5639"
+    volumes:
+      -  /data/pypirepo:/data
+      
+  archiva:
+    image: xetusoss/archiva:latest
+    ports:
+      - "8081:8080"
+    volumes:
+      - /data/archiva:/archiva-data
