@@ -211,7 +211,7 @@ public class TestUtils {
                     .body("drop graph <" + graph + ">")
                     .asString();
             
-            assertEquals(200, deleteGraph.getStatus());
+            assertEquals(204, deleteGraph.getStatus());
         } catch (Exception ex) {
             ex.printStackTrace();
             fail("Drop graph failed. "+ ex.getMessage());
@@ -230,7 +230,7 @@ public class TestUtils {
     private static void testHealth(String endpoint) {
         try {
             HttpResponse<JsonNode> health = Unirest.get(TestUtils.getGmapi() + "/health").asJson();
-            assertEquals(204, health.getStatus());
+            assertEquals(200, health.getStatus());
         } catch (Exception ex) {
             ex.printStackTrace();
             fail("Health check failed. "+ ex.getMessage());
