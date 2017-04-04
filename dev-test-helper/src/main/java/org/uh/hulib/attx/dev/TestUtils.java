@@ -199,16 +199,16 @@ public class TestUtils {
         };
     }   
     
-    public static void clearProvData() {
-        dropGraph("http://data.hulib.helsinki.fi/attx/prov");
+    public static void clearProvData(String dataSet) {
+        dropGraph("http://data.hulib.helsinki.fi/attx/prov", dataSet);
     }
     
-    public static void dropGraph(String graph) {
+    public static void dropGraph(String graph, String dataSet) {
         try {
             // drop prov graph
-            HttpResponse<String> deleteGraph = Unirest.post(TestUtils.getFuseki() + "/test/update")
+            HttpResponse<String> deleteGraph = Unirest.post(TestUtils.getFuseki() + "/" + dataSet + "/update")
                     .header("Content-Type", "application/sparql-update")
-                    .body("drop graph " + graph + ">")
+                    .body("drop graph <" + graph + ">")
                     .asString();
             
             assertEquals(200, deleteGraph.getStatus());
