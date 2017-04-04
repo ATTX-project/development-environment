@@ -46,11 +46,11 @@ public class TestUtils {
         return "http://" + System.getProperty("wfapi.host") + ":" + Integer.parseInt(System.getProperty("wfapi.port"));
     }
 
-    private static final String VERSION = "/0.1";
+    public static final String VERSION = "/0.1";
 
-    private static final String API_USERNAME = "master";
-    private static final String API_PASSWORD = "commander";
-    private static final String ACTIVITY = "{ \"debugging\" : \"false\", \"userExternalId\" : \"admin\" }";
+    public static final String API_USERNAME = "master";
+    public static final String API_PASSWORD = "commander";
+    public static final String ACTIVITY = "{ \"debugging\" : \"false\", \"userExternalId\" : \"admin\" }";
 
     public static JSONObject getQueryResultField(HttpResponse<JsonNode> response, String field) {
         JSONObject queryObject = response.getBody().getObject().getJSONObject("results");
