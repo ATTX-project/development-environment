@@ -197,5 +197,43 @@ public class TestUtils {
                 return totalHits;
             }
         };
+    }   
+    
+    public static void clearProvData() {
+        dropGraph("http://data.hulib.helsinki.fi/attx/prov");
+    }
+    
+    public static void dropGraph(String graph) {
+        try {
+            // drop prov graph
+            HttpResponse<String> deleteGraph = Unirest.post(TestUtils.getFuseki() + "/test/update")
+                    .header("Content-Type", "application/sparql-update")
+                    .body("drop graph " + graph + ">")
+                    .asString();
+            
+            assertEquals(200, deleteGraph.getStatus());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            fail("Drop graph failed. "+ ex.getMessage());
+        }        
+    }
+    
+
+    public static void testWfHealth() {
+        TestUtils.testHealth(TestUtils.getWfapi() + "/health");
+    }
+    
+    public static void testGmHealth() {
+        TestUtils.testHealth(TestUtils.getGmapi() + "/health");
+    }
+    
+    private static void testHealth(String endpoint) {
+        try {
+            HttpResponse<JsonNode> health = Unirest.get(TestUtils.getGmapi() + "/health").asJson();
+            assertEquals(200, health.getStatus());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            fail("Health check failed. "+ ex.getMessage());
+        }
     }
 }
