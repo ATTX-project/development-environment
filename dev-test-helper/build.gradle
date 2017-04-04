@@ -3,7 +3,7 @@ apply plugin: 'java'
 apply plugin: 'maven-publish'
 
 String mavenGroupId = 'org.uh.hulib.attx.dev'
-String mavenVersion = '1.0'
+String mavenVersion = '1.1'
 
 ext {
     imageRepo = "attx-dev"
