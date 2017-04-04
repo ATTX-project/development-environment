@@ -1,1 +1,1 @@
-include "attx-jenkins", "pivy-repo"
+include "attx-jenkins", "pivy-repo", "dev-test-helper"
