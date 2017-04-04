@@ -230,7 +230,7 @@ public class TestUtils {
     private static void testHealth(String endpoint) {
         try {
             HttpResponse<JsonNode> health = Unirest.get(TestUtils.getGmapi() + "/health").asJson();
-            assertEquals(200, health.getStatus());
+            assertEquals(204, health.getStatus());
         } catch (Exception ex) {
             ex.printStackTrace();
             fail("Health check failed. "+ ex.getMessage());
