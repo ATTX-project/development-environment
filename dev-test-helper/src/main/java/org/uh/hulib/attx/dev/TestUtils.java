@@ -135,7 +135,7 @@ public class TestUtils {
 
     public static void updateProv() throws Exception{
         String provRequest = String.format(getGmapi() + VERSION + "/prov?start=true&wfapi=http://wfapi:4301" + VERSION +
-                "&graphStore=http://fuseki:3030/ds");
+                "&graphStore=http://fuseki:3030/test");
 
         HttpResponse<JsonNode> wfProv = Unirest.get(provRequest)
                 .header("content-type", "application/json")
@@ -151,7 +151,7 @@ public class TestUtils {
             public Boolean call() throws Exception {
                 boolean queryResult = false;
                 try {
-                    HttpResponse<JsonNode> queryWork = graphQueryResult("ds", query);
+                    HttpResponse<JsonNode> queryWork = graphQueryResult("test", query);
                     System.out.println(queryWork.getBody().getObject().getBoolean("boolean"));
                     queryResult = queryWork.getBody().getObject().getBoolean("boolean");
                 } catch (Exception ex) {
@@ -199,14 +199,14 @@ public class TestUtils {
         };
     }   
     
-    public static void clearProvData(String dataSet) {
-        dropGraph("http://data.hulib.helsinki.fi/attx/prov", dataSet);
+    public static void clearProvData() {
+        dropGraph("http://data.hulib.helsinki.fi/attx/prov");
     }
     
-    public static void dropGraph(String graph, String dataSet) {
+    public static void dropGraph(String graph) {
         try {
             // drop prov graph
-            HttpResponse<String> deleteGraph = Unirest.post(TestUtils.getFuseki() + "/" + dataSet + "/update")
+            HttpResponse<String> deleteGraph = Unirest.post(TestUtils.getFuseki() + "/test/update")
                     .header("Content-Type", "application/sparql-update")
                     .body("drop graph <" + graph + ">")
                     .asString();
