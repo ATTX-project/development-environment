@@ -57,8 +57,8 @@ public class TestUtils {
         return queryObject.getJSONArray("bindings").getJSONObject(0).getJSONObject(field);
     }
 
-    public static HttpResponse<JsonNode> graphQueryResult(String endpoint, String query) {
-        String URL = String.format(getFuseki() + "/%s/query", endpoint);
+    public static HttpResponse<JsonNode> graphQueryResult(String query) {
+        String URL = getFuseki() + "/test/query";
         HttpResponse<JsonNode> queryResponse = null;
         try {
             queryResponse = Unirest.post(URL)
@@ -151,7 +151,7 @@ public class TestUtils {
             public Boolean call() throws Exception {
                 boolean queryResult = false;
                 try {
-                    HttpResponse<JsonNode> queryWork = graphQueryResult("test", query);
+                    HttpResponse<JsonNode> queryWork = graphQueryResult(query);
                     System.out.println(queryWork.getBody().getObject().getBoolean("boolean"));
                     queryResult = queryWork.getBody().getObject().getBoolean("boolean");
                 } catch (Exception ex) {
