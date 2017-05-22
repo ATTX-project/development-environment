@@ -1,0 +1,22 @@
+apply plugin: 'com.chrisgahlert.gradle-dcompose-plugin'
+
+dcompose {
+    createComposeFile.useTags = true
+    version = '3' // default - also supports '2'
+    registry ("$registryURL") {
+        // Needs no user/pass
+ 	}
+    networks {
+        devEnv
+    }
+    pypirepo {
+        forcePull = true
+        forceRemoveImage = true
+        baseDir = file('.')
+        repository = "${imageRepo}:${imageRepoPort}/pypirepo:latest"
+        portBindings = ['5039:5039', '5639:5639']
+        volumes = ['/data']
+        binds = ['/data/pypirepo:/data']
+        networks = [devEnv]
+    }
+}
