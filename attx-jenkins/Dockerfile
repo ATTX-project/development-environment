@@ -11,6 +11,11 @@ RUN apt-get update \
     && apt-get install -y build-essential \
     && apt-get install -y zlib1g-dev \
     && apt-get install -y maven \
+    && curl -sL https://deb.nodesource.com/setup_7.x | bash - \
+    && apt-get install -y nodejs \
     && apt-get clean
+
+RUN git config --global user.email "attxproject@gmail.com" \
+    && git config --global user.name "attx github"
 
 RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
