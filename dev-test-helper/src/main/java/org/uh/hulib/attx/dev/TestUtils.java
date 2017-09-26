@@ -15,7 +15,9 @@ import org.json.JSONObject;
 
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
 
 /**
  * Created by stefanne on 04/04/17.
@@ -30,6 +32,10 @@ public class TestUtils {
         return "http://" + System.getProperty("es5.host") + ":" + Integer.parseInt(System.getProperty("es5.port"));
     }
 
+    public static String getMessageBroker() {
+        return "http://" + System.getProperty("messagebroker.host") + ":" + Integer.parseInt(System.getProperty("messagebroker.port"));
+    }
+
     public static String getFuseki() {
         return "http://" + System.getProperty("fuseki.host") + ":" + Integer.parseInt(System.getProperty("fuseki.port"));
     }
@@ -38,15 +44,23 @@ public class TestUtils {
         return "http://" + System.getProperty("frontend.host") + ":" + Integer.parseInt(System.getProperty("frontend.port"));
     }
 
-    public static String getGmapi() {
-        return "http://" + System.getProperty("gmapi.host") + ":" + Integer.parseInt(System.getProperty("gmapi.port"));
+    public static String getGmService() {
+        return "http://" + System.getProperty("graphmanager.host") + ":" + Integer.parseInt(System.getProperty("graphmanager.port"));
     }
 
-    public static String getWfapi() {
-        return "http://" + System.getProperty("wfapi.host") + ":" + Integer.parseInt(System.getProperty("wfapi.port"));
+    public static String getUVprov() {
+        return "http://" + System.getProperty("uvprov.host") + ":" + Integer.parseInt(System.getProperty("uvprov.port"));
     }
 
-    public static final String VERSION = "/0.1";
+    public static String getProvService() {
+        return "http://" + System.getProperty("provservice.host") + ":" + Integer.parseInt(System.getProperty("provservice.port"));
+    }
+
+    public static String getRMLService() {
+        return "http://" + System.getProperty("rmlservice.host") + ":" + Integer.parseInt(System.getProperty("rmlservice.port"));
+    }
+
+    public static final String VERSION = "/0.2";
 
     public static final String API_USERNAME = "master";
     public static final String API_PASSWORD = "commander";
@@ -133,18 +147,19 @@ public class TestUtils {
         };
     }
 
-    public static void updateProv() throws Exception{
-        String provRequest = String.format(getGmapi() + VERSION + "/prov?start=true&wfapi=http://wfapi:4301" + VERSION +
-                "&graphStore=http://fuseki:3030/test");
-
-        HttpResponse<JsonNode> wfProv = Unirest.get(provRequest)
-                .header("content-type", "application/json")
-                .asJson();
-        JSONObject provObj = wfProv.getBody().getObject();
-
-        assertEquals(200, wfProv.getStatus());
-        assertEquals("Done", provObj.getString("status"));
-    }
+//    NOT USED
+//    public static void updateProv() throws Exception{
+//        String provRequest = String.format(getGmapi() + VERSION + "/prov?start=true&wfapi=http://wfapi:4301" + VERSION +
+//                "&graphStore=http://fuseki:3030/test");
+//
+//        HttpResponse<JsonNode> wfProv = Unirest.get(provRequest)
+//                .header("content-type", "application/json")
+//                .asJson();
+//        JSONObject provObj = wfProv.getBody().getObject();
+//
+//        assertEquals(200, wfProv.getStatus());
+//        assertEquals("Done", provObj.getString("status"));
+//    }
 
     public static Callable<Boolean> askQueryAnswer(String query) {
         return new Callable<Boolean>() {
@@ -170,7 +185,7 @@ public class TestUtils {
     public static Callable<String> pollForIndexStatus(Integer createdID) {
         return new Callable<String>() {
             public String call() throws Exception {
-                String URL = String.format(getGmapi() + VERSION + "/index/%s", createdID);
+                String URL = String.format(getGmService() + VERSION + "/index/%s", createdID);
                 GetRequest get = Unirest.get(URL);
                 HttpResponse<JsonNode> response1 = get.asJson();
                 JSONObject myObj = response1.getBody().getObject();
@@ -219,12 +234,16 @@ public class TestUtils {
     }
     
 
-    public static void testWfHealth() {
-        TestUtils.testHealth(TestUtils.getWfapi() + "/health");
+    public static void testUVprovHealth() {
+        TestUtils.testHealth(TestUtils.getUVprov() + "/health");
     }
     
     public static void testGmHealth() {
-        TestUtils.testHealth(TestUtils.getGmapi() + "/health");
+        TestUtils.testHealth(TestUtils.getGmService() + "/health");
+    }
+
+    public static void testProvServiceHealth() {
+        TestUtils.testHealth(TestUtils.getProvService() + "/health");
     }
     
     private static void testHealth(String endpoint) {
