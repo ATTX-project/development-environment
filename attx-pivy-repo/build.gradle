@@ -12,7 +12,7 @@ dcompose {
     pypirepo {
         forcePull = true
         forceRemoveImage = true
-        baseDir = file('.')
+        baseDir = file('docker')
         repository = "${imageRepo}:${imageRepoPort}/pypirepo:latest"
         portBindings = ['5039:5039', '5639:5639']
         volumes = ['/data']

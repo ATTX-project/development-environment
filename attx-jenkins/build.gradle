@@ -12,7 +12,7 @@ dcompose {
     jenkins {
         forcePull = true
         forceRemoveImage = true
-        baseDir = file('.')
+        baseDir = file('docker')
         repository = "${imageRepo}:${imageRepoPort}/attx-jenkins:latest"
         portBindings = ['49001:8080']
         binds = ['/data/jenkins:/data/jenkins_home']
