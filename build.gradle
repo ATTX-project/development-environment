@@ -26,7 +26,7 @@ dcompose {
         volumes = ['/archiva-data']
 		binds = ['/data/archiva:/archiva-data']
         networks = [devEnv]
-        dependsOn = [service(':pivy-repo:pypirepo'), service(':attx-jenkins:jenkins')]
+        dependsOn = [service(':attx-pivy-repo:pypirepo'), service(':attx-jenkins:jenkins')]
     }
 }
 
