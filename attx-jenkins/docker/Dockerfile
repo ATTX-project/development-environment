@@ -17,7 +17,8 @@ RUN apt-get update \
     && apt-get clean
 
 RUN easy_install pip \
-    && pip install ontospy
+    && pip install ontospy \
+    && pip install ontodocs==1.0.3
 
 RUN git config --global user.email "attxproject@gmail.com" \
     && git config --global user.name "attx github"
