@@ -16,7 +16,8 @@ RUN apt-get update \
     && apt-get install -y nodejs \
     && apt-get clean
 
-RUN easy_install pip
+RUN easy_install pip \
+    && pip install ontospy
 
 RUN git config --global user.email "attxproject@gmail.com" \
     && git config --global user.name "attx github"
