@@ -18,6 +18,7 @@ RUN apt-get update \
 
 RUN easy_install pip \
     && pip install ontospy \
+    && pip install django==1.11 \
     && pip install ontodocs==1.0.3
 
 RUN git config --global user.email "attxproject@gmail.com" \
